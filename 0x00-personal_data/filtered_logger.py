@@ -55,22 +55,21 @@ def get_logger() -> logging.Logger:
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """ Connection to MySQL environment """
-    db_connection = mysql.connector.connect(
+    db_connect = mysql.connector.connect(
         user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
         password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
         host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
-        database=os.getenv('PERSONAL_DATA_DB_NAME')
+        database=os.getenv('PERSONAL_DATA_DB_NAME', '')
     )
-    return db_connection
+    return db_connect
 
 
 def main() -> None:
-    """connect to the database, retrieve data,
-    and log each row in a filtered format."""
+    """connect to the database, retrieve data"""
     db = get_db()
     cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT * FROM users;")
-    
+
     logger = logging.getLogger('user_data')
     logger.setLevel(logging.INFO)
     handler = logging.StreamHandler()
@@ -80,7 +79,7 @@ def main() -> None:
     )
     handler.setFormatter(formatter)
     logger.addHandler(handler)
-    
+
     rows = cursor.fetchall()
     for row in rows:
         log_msg = '; '.join([f"{key}={value}" for key, value in row.items()])

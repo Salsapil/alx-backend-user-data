@@ -47,7 +47,7 @@ def get_logger() -> logging.Logger:
     target_handler.setLevel(logging.INFO)
 
     formatter = RedactingFormatter(list(PII_FIELDS))
-    target_handle.setFormatter(formatter)
+    target_handler.setFormatter(formatter)
 
     logger.addHandler(target_handler)
     return logger
@@ -62,3 +62,27 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=os.getenv('PERSONAL_DATA_DB_NAME', '')
     )
     return db_connect
+
+
+def main() -> None:
+    """connect to the database, retrieve data,
+    and log each row in a filtered format."""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+
+    headers = [field[0] for field in cursor.description]
+    logger = get_logger()
+
+    for row in cursor:
+        info_answer = ''
+        for f, p in zip(row, headers):
+            info_answer += f'{p}={(f)}; '
+        logger.info(info_answer)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Regex-ing"""
 import re
+from typing import List
 
 
-def filter_datum(fields, redaction, message, separator):
-    """filter datum"""
-    # [^{separator}]: matches any character except separator.
-    # *: matches the value of the field until it encounters separator.
-    pattern = '|'.join([f'{field}=[^{separator}]*' for field in fields])
-    return re.sub(pattern, lambda m: f'{m.group().split("=")[0]}={redaction}',
-                  message)
+def filter_datum(fields: List[str], redaction: str, message: str,
+                 separator: str) -> str:
+    """ filter datum """
+    for field in fields:
+        message = re.sub(f'{field}=(.*?){separator}',
+                         f'{field}={redaction}{separator}', message)
+    return message

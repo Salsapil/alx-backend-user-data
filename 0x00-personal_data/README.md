@@ -8,10 +8,10 @@ The process of modifying logs to protect this sensitive information.
 ### How to Obfuscate PII Fields:
 Obfuscation means hiding or masking the actual data. Like replacing an email or password with "***".   
 
-### Steps to Implement a Log Filter:
-**1- Identify PII Fields:** Determine which fields contain PII (like email, password).
-**2- Apply Regex or Similar Techniques:** Use regular expressions (regex) or specific algorithms to find and replace sensitive information in the logs.
-**3- Substitute the PII:** Replace the actual values with a placeholder like *** or REDACTED.
+### Steps to Implement a Log Filter:   
+**1- Identify PII Fields:** Determine which fields contain PII (like email, password).   
+**2- Apply Regex or Similar Techniques:** Use regular expressions (regex) or specific algorithms to find and replace sensitive information in the logs.   
+**3- Substitute the PII:** Replace the actual values with a placeholder like *** or REDACTED.   
 
 # How to encrypt a password and check the validity of an input password
 ## Password Encryption vs. Hashing:

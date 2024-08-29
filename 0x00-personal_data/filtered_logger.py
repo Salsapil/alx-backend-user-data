@@ -68,17 +68,24 @@ def main() -> None:
     """connect to the database, retrieve data,
     and log each row in a filtered format."""
     db = get_db()
-    cursor = db.cursor()
+    cursor = db.cursor(dictionary=True)
     cursor.execute("SELECT * FROM users;")
-
-    headers = [field[0] for field in cursor.description]
-    logger = get_logger()
-
-    for row in cursor:
-        info_answer = ''
-        for f, p in zip(row, headers):
-            info_answer += f'{p}={(f)}; '
-        logger.info(info_answer)
+    
+    logger = logging.getLogger('user_data')
+    logger.setLevel(logging.INFO)
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(
+        '[HOLBERTON] %(name)s %(levelname)s %(asctime)s: %(message)s',
+        "%Y-%m-%d %H:%M:%S"
+    )
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    
+    rows = cursor.fetchall()
+    for row in rows:
+        log_msg = '; '.join([f"{key}={value}" for key, value in row.items()])
+        filtered_msg = filter_datum(PII_FIELDS, '***', log_msg, '; ')
+        logger.info(filtered_msg)
 
     cursor.close()
     db.close()

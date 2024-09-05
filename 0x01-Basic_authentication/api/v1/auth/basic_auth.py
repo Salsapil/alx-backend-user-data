@@ -1,4 +1,5 @@
-# api/v1/auth/basic_auth.py
+#!/usr/bin/env python3
+"""api/v1/auth/basic_auth.py"""
 import base64
 from api.v1.auth.auth import Auth
 

@@ -10,7 +10,6 @@ from api.v1.auth.auth import Auth
 import os
 
 
-
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
@@ -25,6 +24,7 @@ if auth_type == 'auth':
 
 @app.route('/api/v1/status/', methods=['GET'])
 def status():
+    """simple status"""
     return jsonify({"status": "OK"}), 200
 
 
@@ -36,7 +36,9 @@ def before_request_func():
         return
 
     # List of paths that don't require authentication
-    excluded_paths = ['/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/']
+    excluded_paths = [
+        '/api/v1/status/', '/api/v1/unauthorized/', '/api/v1/forbidden/'
+        ]
 
     # Check if the request path requires authentication
     if not auth.require_auth(request.path, excluded_paths):

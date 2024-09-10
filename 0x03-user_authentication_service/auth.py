@@ -24,6 +24,12 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
+    def _generate_uuid(self) -> str:
+        """
+        Generate a new UUID and return its string representation.
+        """
+        return str(uuid4())
+
     def register_user(self, email: str, password: str) -> User:
         """
         Register a new user with the given email and password.
@@ -54,15 +60,8 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
+            session_id = self._generate_uuid()
+            self._db.update_user(user.id, session_id=session_id)
+            return session_id
         except NoResultFound:
             return None
-        session_id = _generate_uuid()
-        self._db.update_user(user.id, session_id=session_id)
-        return session_id
-
-
-def _generate_uuid(self) -> str:
-        """
-        Generate a new UUID and return its string representation.
-        """
-        return str(uuid4())

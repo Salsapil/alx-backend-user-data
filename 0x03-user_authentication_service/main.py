@@ -2,16 +2,7 @@
 """
 Main file
 """
-from auth import Auth
+from auth import _generate_uuid
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
-
-auth.register_user(email, password)
-
-print(auth.valid_login(email, password))
-
-print(auth.valid_login(email, "WrongPwd"))
-
-print(auth.valid_login("unknown@email", password))
+# Test the _generate_uuid function
+print(_generate_uuid())  # Expected output: A unique UUID, e.g., '123e4567-e89b-12d3-a456-426614174000'

@@ -5,7 +5,7 @@ from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
 from bcrypt import checkpw
-import uuid
+from uuid import uuid4
 
 
 def _hash_password(password: str) -> bytes:
@@ -52,4 +52,4 @@ class Auth:
         """
         Generate a new UUID and return its string representation.
         """
-        return str(uuid.uuid4())
+        return str(uuid4())

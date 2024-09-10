@@ -23,7 +23,7 @@ class Auth:
 
     def __init__(self):
         self._db = DB()
-    
+
     def _generate_uuid(self) -> str:
         """
         Generate a new UUID and return its string representation.
@@ -65,4 +65,3 @@ class Auth:
             return session_id
         except NoResultFound:
             return None
-

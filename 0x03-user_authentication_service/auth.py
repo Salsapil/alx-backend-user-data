@@ -15,12 +15,6 @@ class Auth:
     def __init__(self):
         self._db = DB()
 
-    def _generate_uuid(self) -> str:
-        """
-        Generate a new UUID and return its string representation.
-        """
-        return str(uuid.uuid4())
-
     def get_reset_password_token(self, email: str) -> str:
         """
         Generate a reset password token for the user.
@@ -30,7 +24,7 @@ class Auth:
         except NoResultFound:
             raise ValueError(f"User with email {email} does not exist")
 
-        reset_token = self._generate_uuid()
+        reset_token = _generate_uuid()
 
         self._db.update_user(user.id, reset_token=reset_token)
 
@@ -80,7 +74,7 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(email=email)
-            session_id = self._generate_uuid()
+            session_id = _generate_uuid()
             self._db.update_user(user.id, session_id=session_id)
             return session_id
         except NoResultFound:
@@ -105,6 +99,13 @@ class Auth:
         Sets the user's session_id to None.
         """
         self._db.update_user(user_id, session_id=None)
+
+
+def _generate_uuid() -> str:
+    """
+    Generate a new UUID and return its string representation.
+    """
+    return str(uuid.uuid4())
 
 
 def _hash_password(password: str) -> bytes:

@@ -35,6 +35,7 @@ def users():
 
 @app.route('/sessions', methods=['POST'])
 def login_user():
+    """function to respond to the POST /sessions route."""
     email = request.form.get('email')
     password = request.form.get('password')
     if not email or not password:
@@ -51,6 +52,7 @@ def login_user():
 
 @app.route('/sessions', methods=['DELETE'])
 def logout():
+    """function to respond to the DELETE /sessions route"""
     session_id = request.cookies.get("session_id")
     user = AUTH.get_user_from_session_id(session_id)
     if not user:

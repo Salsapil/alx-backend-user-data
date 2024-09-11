@@ -8,15 +8,6 @@ from bcrypt import checkpw
 import uuid
 
 
-def _hash_password(password: str) -> bytes:
-    """
-    Hash the input password using bcrypt, returning the salted hash as bytes.
-    """
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-    return hashed_password
-
-
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -114,3 +105,12 @@ class Auth:
         Sets the user's session_id to None.
         """
         self._db.update_user(user_id, session_id=None)
+
+
+def _hash_password(password: str) -> bytes:
+    """
+    Hash the input password using bcrypt, returning the salted hash as bytes.
+    """
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    return hashed_password

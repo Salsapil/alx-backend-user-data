@@ -45,6 +45,20 @@ class Auth:
 
         return reset_token
 
+    def update_password(self, reset_token: str, password: str) -> None:
+        """
+        Update the password for the user identified by the reset_token.
+        """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError("Invalid reset token")
+
+        hashed_password = _hash_password(password)
+
+        self._db.update_user(user.id, hashed_password=hashed_password,
+                             reset_token=None)
+
     def register_user(self, email: str, password: str) -> User:
         """
         Register a new user with the given email and password.

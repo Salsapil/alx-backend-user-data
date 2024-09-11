@@ -32,7 +32,7 @@ class Auth:
 
     def get_reset_password_token(self, email: str) -> str:
         """
-        Generate a reset password token for the user identified by the given email.
+        Generate a reset password token for the user.
         """
         try:
             user = self._db.find_user_by(email=email)

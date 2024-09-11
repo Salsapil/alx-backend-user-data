@@ -30,6 +30,21 @@ class Auth:
         """
         return str(uuid.uuid4())
 
+    def get_reset_password_token(self, email: str) -> str:
+        """
+        Generate a reset password token for the user identified by the given email.
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            raise ValueError(f"User with email {email} does not exist")
+
+        reset_token = self._generate_uuid()
+
+        self._db.update_user(user.id, reset_token=reset_token)
+
+        return reset_token
+
     def register_user(self, email: str, password: str) -> User:
         """
         Register a new user with the given email and password.

@@ -5,10 +5,12 @@ from auth import Auth
 
 app = Flask(__name__)
 AUTH = Auth()
+app.url_map.strict_slashes = False
+app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
 
 @app.route("/", methods=["GET"])
-def welcome():
+def welcome() -> str:
     """
     GET route that returns a JSON response with a welcome message.
     """
